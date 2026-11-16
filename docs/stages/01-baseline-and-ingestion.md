@@ -44,7 +44,7 @@
 
 ## 交付与文章
 
-已交付：`topic_agent/ingestion.py` 解析核心、`topic_agent/chunking.py` 分块核心、`topic_agent/preview.py` 只读入口、２４项测试。七篇真实文章的解析验收是历史记录；新增分块接入以合成样例验证，未重新扫描真实文章。
+已交付：`apps/api/topic_agent/ingestion.py` 解析核心、`apps/api/topic_agent/chunking.py` 分块核心、`apps/api/topic_agent/preview.py` 只读入口、２４项测试。七篇真实文章的解析验收是历史记录；新增分块接入以合成样例验证，未重新扫描真实文章。
 
 范围边界：解析及章节分块只读预览，不调用 Embedding、不持久化、不验证线上发布状态。文章需有 Frontmatter 和 title、slug／id；分块仅支持约定的标题与围栏子集，不宣称完整 Markdown 支持。CLI 展示摘要，不输出分块原文。
 

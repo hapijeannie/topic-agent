@@ -16,6 +16,22 @@
 
 部署方向为 Vercel 上的 Next.js 与 FastAPI，加独立 PostgreSQL；公开部署尚未执行，需单独确认。Docker 后续独立练习验收，平台部署不替代容器化技能。当前命令行只用于开发验证。
 
+## 仓库结构
+
+```text
+apps/
+  api/                     # Python 业务代码、测试和依赖
+  web/                     # Next.js 工作台，目前仅目录说明
+learning/python/
+  notes/                   # 学习笔记与 imgs 配图
+  exercises/               # 个人练习
+docs/                      # 需求、岗位、计划、阶段和学习记录
+AGENTS.md                  # 协作与目录约定
+ROADMAP.md                 # 唯一进度源
+```
+
+不预建共享 packages 或引入构建编排。沿用根目录 `.venv`，不移动虚拟环境；Python 包名仍为 `topic_agent`。下面命令均从仓库根目录执行；在后端目录内执行的方法见 [API README](apps/api/README.md) 。
+
 ## 当前使用方式
 
 当前已实现 Markdown 只读解析与章节分块预览，尚无网页、数据库写入或向量化。Python 核心后续供网页上传复用，命令行不是最终产品界面。
@@ -24,9 +40,9 @@
 
 ```bash
 python3 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt
-.venv/bin/python -m topic_agent.preview /path/to/markdown --source technical-blog --ownership owned
-.venv/bin/python -m unittest discover -s tests -v
+.venv/bin/python -m pip install -r apps/api/requirements.txt
+PYTHONPATH=apps/api .venv/bin/python -m topic_agent.preview /path/to/markdown --source technical-blog --ownership owned
+PYTHONPATH=apps/api .venv/bin/python -m unittest discover -s apps/api/tests -v
 ```
 
 `--source` 是稳定的来源集合名；`--ownership` 必须显式指定 `owned`（自己的文章）或 `reference`（外部参考）。混合归属的目录需分批处理，程序不猜作者归属。
@@ -42,10 +58,10 @@ python3 -m venv .venv
 可直接运行合成样例：
 
 ```bash
-.venv/bin/python -m topic_agent.preview tests/fixtures/chunk_preview --source demo --ownership owned --max-chars 7
+PYTHONPATH=apps/api .venv/bin/python -m topic_agent.preview apps/api/tests/fixtures/chunk_preview --source demo --ownership owned --max-chars 7
 ```
 
-样例文件：[sample.md](tests/fixtures/chunk_preview/sample.md) 。正文为 `## A\n甲乙\n## B\n乙\n`，末尾包含换行。预期完整报告仍包含现有来源、状态等信息，每篇文章新增以下字段：
+样例文件：[sample.md](apps/api/tests/fixtures/chunk_preview/sample.md) 。正文为 `## A\n甲乙\n## B\n乙\n`，末尾包含换行。预期完整报告仍包含现有来源、状态等信息，每篇文章新增以下字段：
 
 ```json
 {

@@ -29,20 +29,18 @@
 
 ## 目录约定
 
-当前先实施 Python 只读导入核心，网页与数据库在后续阶段接入。沿用用户指定的 main 日常开发，不另建工作树。
+采用轻量 monorepo：apps 放应用，learning 放学习材料，docs 放项目文档；没有真实共享需求前不创建 packages，也不引入构建编排工具。当前先实施 Python 只读导入核心，网页与数据库在后续阶段接入。沿用用户指定的 main 日常开发，不另建工作树。
 
-- `topic_agent/`：Python 业务模块；首个模块为 Markdown 解析与预览。
-- `tests/`：标准库 unittest 行为测试，样本使用合成内容，真实文章只读验收。
-- `tests/fixtures/`：可重复运行的合成验收素材，按功能子目录组织；不放真实私有文章。
-- `exercises/`：统一存放个人编码练习；使用 `01_topic_name.py` 形式编号命名，说明和运行方式放在该目录 README.md。保留 TODO，不代写用户练习，不由业务模块导入。
-- `requirements.txt`：锁定当前所需依赖；安装到 `.venv`，不修改全局环境。
+- `apps/api/`：Python 后端；topic_agent 放业务模块，tests 放 unittest 与 fixtures 合成素材，requirements.txt 锁定依赖。沿用根目录 .venv，不迁移虚拟环境，不修改全局环境。
+- `apps/web/`：未来 Next.js 工作台；当前仅目录说明，不代表网页已实现。
+- `learning/python/notes/`：Python／文本处理学习笔记，imgs 子目录保存笔记所引用的脱敏图片。
+- `learning/python/exercises/`：个人编码练习；按 01_topic_name.py 编号，说明放目录 README.md。保留 TODO，不代写练习，不由业务模块导入。
 - `docs/plans/`：细化后的实施步骤与实际验证记录。
 
 - `README.md`：项目定位、文档入口、未来使用方法。
 - `ROADMAP.md`：唯一进度源，包括当前阶段、完成、进行中、待办、阻塞及最近验证。
 - `docs/project-brief.md`：已确认需求、执行链路、架构取舍与待确认项。
 - `docs/job-requirements.md`：用户提供的岗位要求摘录、证据边界与能力映射。
-- `docs/local/`：纳入版本控制的学习观察笔记；`docs/imgs/`：笔记引用的脱敏截图与示意图，不放密钥或真实账号数据。
 - `docs/stages/`：阶段概念、任务、个人练习与验收。
 - `docs/daily/`：按 `YYYY-MM-DD.md` 记录实际工作日。
 - `docs/articles/`：里程碑博客草稿；阶段完成后创建，不提前编写结果。

@@ -12,9 +12,9 @@
 
 ## 接口与文件
 
-- 新增 `topic_agent/chunking.py`：`chunk_body(body: str, max_chars: int) -> list[dict]`；每条包含 index、text、char_count、oversized。预算必须为正整数，拒绝布尔值。空字符串返回空列表。
-- 修改 `topic_agent/preview.py`：`preview_directory(directory, source, ownership, max_chars=1000)`；CLI 新增 `--max-chars`，默认 1000，仅为可调整的预览阈值，不宣称最佳切片长度或模型 token 上限。非法 CLI 预算由 argparse 拒绝；函数调用返回顶层 error。
-- 新增 `tests/test_chunking.py`，扩展 `tests/test_preview.py`；README、阶段、每日记录与 ROADMAP 同步。
+- 新增 `apps/api/topic_agent/chunking.py`：`chunk_body(body: str, max_chars: int) -> list[dict]`；每条包含 index、text、char_count、oversized。预算必须为正整数，拒绝布尔值。空字符串返回空列表。
+- 修改 `apps/api/topic_agent/preview.py`：`preview_directory(directory, source, ownership, max_chars=1000)`；CLI 新增 `--max-chars`，默认 1000，仅为可调整的预览阈值，不宣称最佳切片长度或模型 token 上限。非法 CLI 预算由 argparse 拒绝；函数调用返回顶层 error。
+- 新增 `apps/api/tests/test_chunking.py`，扩展 `apps/api/tests/test_preview.py`；README、阶段、每日记录与 ROADMAP 同步。
 
 ## 支持边界与评审重点
 
@@ -34,7 +34,7 @@
 ## 实际验证
 
 - 初次运行新增测试：缺少 chunking 模块导致导入错误，缺少摘要字段导致 KeyError，CLI 未识别 --max-chars 导致断言失败；明确记录为能力缺失阶段，不声称全部是行为断言失败。
-- 实现后 `.venv/bin/python -m unittest discover -s tests -v`：２４项全部通过，含原有１５项。
-- 合成文件 `tests/fixtures/chunk_preview/sample.md`：预算 7 时字符数 8、7，标记 True、False；预算 8 时均 False。两次 CLI 均退出０，ready=1，原文件 SHA-256 一致，未输出正文。
+- 实现后 `PYTHONPATH=apps/api .venv/bin/python -m unittest discover -s apps/api/tests -v`：２４项全部通过，含原有１５项。
+- 合成文件 `apps/api/tests/fixtures/chunk_preview/sample.md`：预算 7 时字符数 8、7，标记 True、False；预算 8 时均 False。两次 CLI 均退出０，ready=1，原文件 SHA-256 一致，未输出正文。
 - 本次未重新扫描真实博客文章，不将旧的七篇解析验收说成新的分块验收。未增加依赖，未提交或推送。
 - 遵守项目不自动创建子对话的约定，本轮由主助手检查改动与测试，无独立子代理审查。

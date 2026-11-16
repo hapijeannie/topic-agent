@@ -6,9 +6,9 @@
 
 ## 范围与接口
 
-- `topic_agent/ingestion.py`：`parse_markdown(raw: str, source_namespace: str, ownership: str) -> Document`，只接受带 Frontmatter 的文章，title 必填，slug 或 id 必有其一；保留原文、正文、未知元数据。ownership 显式传 owned 或 reference，source_namespace 用于区分来源集合。
+- `apps/api/topic_agent/ingestion.py`：`parse_markdown(raw: str, source_namespace: str, ownership: str) -> Document`，只接受带 Frontmatter 的文章，title 必填，slug 或 id 必有其一；保留原文、正文、未知元数据。ownership 显式传 owned 或 reference，source_namespace 用于区分来源集合。
 - Document 保存 source_id、title、description、body、raw、metadata、declared_status、published_at、content_hash。元数据日期转换为 ISO 文本；draft 为布尔才映射为来源声明状态，不代表线上验证。
-- `topic_agent/preview.py`：通过 `python -m topic_agent.preview DIRECTORY --source NAME --ownership owned|reference` 预览目录顶层 .md 文件。JSON 输出摘要及逐文件错误，不默认输出全文；任一文件失败返回非零，继续报告其他文件。
+- `apps/api/topic_agent/preview.py`：从仓库根目录通过 `PYTHONPATH=apps/api .venv/bin/python -m topic_agent.preview DIRECTORY --source NAME --ownership owned|reference` 预览目录顶层 .md 文件。JSON 输出摘要及逐文件错误，不默认输出全文；任一文件失败返回非零，继续报告其他文件。
 - 同批相同标识且同内容标记 duplicate，不同内容标记 conflict 并失败；跨批次和数据库幂等本次不实现。
 - 不自动猜缺失标识和标题，不执行 YAML 对象标签；拒绝重复字段、非法日期、非布尔 draft、空正文。
 

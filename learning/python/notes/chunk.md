@@ -2,11 +2,11 @@
 
 网页端提交的 content 内容截图：
 
-![content-md](./../imgs/origin-md.png)
+![content-md](./imgs/origin-md.png)
 
 实际在代码中看到的 code
 
-![code-md](./../imgs/md-code.png)
+![code-md](./imgs/md-code.png)
 
 ## `\r` 与 `\n`
 

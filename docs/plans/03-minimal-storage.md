@@ -8,7 +8,7 @@
 
 ## 输入、输出与流程
 
-输入：现有合成 Markdown `tests/fixtures/chunk_preview/sample.md`，source=demo、ownership=owned；不修改输入文件。
+输入：现有合成 Markdown `apps/api/tests/fixtures/chunk_preview/sample.md`，source=demo、ownership=owned；不修改输入文件。
 
 首次导入：返回 status=imported、chunk_count=2，数据库新增一篇文章及两个分块。
 原样重试：返回 status=duplicate，记录总数不增加。

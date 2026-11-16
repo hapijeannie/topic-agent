@@ -1,6 +1,6 @@
 # 个人编码练习
 
-所有学习用代码统一放在此目录，按 `01_topic_name.py` 编号命名。业务实现仍放在 `topic_agent/`，练习不直接接入业务模块。
+所有学习用代码统一放在此目录，按 `01_topic_name.py` 编号命名。业务实现仍放在 `apps/api/topic_agent/`，练习不直接接入业务模块。
 
 协作方式：助手先解释 Python 语法和 API、提供骨架；用户填写 TODO；助手检查并运行验证。未填写的骨架不代表功能完成。
 
@@ -26,7 +26,7 @@
 在项目根目录运行：
 
 ```bash
-.venv/bin/python exercises/01_find_headings.py
+.venv/bin/python learning/python/exercises/01_find_headings.py
 ```
 
 文件末尾的 `if __name__ == "__main__":` 表示直接运行文件时执行检查；导入文件时不执行。`assert` 用来核对实际结果，不符合预期时抛出 `AssertionError`。
@@ -60,7 +60,7 @@
 从项目根目录运行：
 
 ```bash
-.venv/bin/python exercises/02_split_sections.py
+.venv/bin/python learning/python/exercises/02_split_sections.py
 ```
 
 本题已由用户完成：九组检查通过，且各组结果用 `"".join(...)` 拼接后与原文完全一致。
@@ -96,7 +96,7 @@
 运行：
 
 ```bash
-.venv/bin/python exercises/03_mark_oversized.py
+.venv/bin/python learning/python/exercises/03_mark_oversized.py
 ```
 
 本题已由用户完成，预算边界、中文和换行、完整代码、空列表、空字符串及非法预算检查全部通过。
@@ -127,7 +127,7 @@
 运行与验收：
 
 ```bash
-.venv/bin/python exercises/04_closing_fence.py
+.venv/bin/python learning/python/exercises/04_closing_fence.py
 ```
 
 本题已由用户完成，十二组样例全部通过。不自动改写已完成的练习。
@@ -155,7 +155,7 @@
 运行：
 
 ```bash
-.venv/bin/python exercises/05_opening_fence.py
+.venv/bin/python learning/python/exercises/05_opening_fence.py
 ```
 
 本题已由用户完成，十二组检查通过。下一步组合开启识别、关闭判断与章节分块，验证整条练习链路。
@@ -198,7 +198,7 @@ mark_chunks(chunks, max_chars)            # 返回带标记的字典列表
 运行：
 
 ```bash
-.venv/bin/python exercises/06_chunk_pipeline.py
+.venv/bin/python learning/python/exercises/06_chunk_pipeline.py
 ```
 
 验收结果：用户已完成，十组用例的章节边界、原文拼接一致性和超长标记检查通过。标题仍仅识别行首 `## `；未覆盖完整 Markdown 的列表、引用、HTML 或缩进代码块，也未接入模型和数据库。用户反馈对整体流程仍困惑，先复盘样例，再评估业务模块接入方案。

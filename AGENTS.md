@@ -42,6 +42,7 @@
 - `ROADMAP.md`：唯一进度源，包括当前阶段、完成、进行中、待办、阻塞及最近验证。
 - `docs/project-brief.md`：已确认需求、执行链路、架构取舍与待确认项。
 - `docs/job-requirements.md`：用户提供的岗位要求摘录、证据边界与能力映射。
+- `docs/local/`：纳入版本控制的学习观察笔记；`docs/imgs/`：笔记引用的脱敏截图与示意图，不放密钥或真实账号数据。
 - `docs/stages/`：阶段概念、任务、个人练习与验收。
 - `docs/daily/`：按 `YYYY-MM-DD.md` 记录实际工作日。
 - `docs/articles/`：里程碑博客草稿；阶段完成后创建，不提前编写结果。

@@ -45,3 +45,21 @@ curl -i http://127.0.0.1:8000/health
 health 只证明服务能响应，不检查数据库。完成本地验收后再部署 Vercel，项目 Root Directory 选择 apps/api；main.py 中的 app 是官方支持的入口。数据库创建与关联安排在服务部署后。
 
 官方资料：[FastAPI 入门](https://fastapi.tiangolo.com/tutorial/first-steps/) 与 [Vercel FastAPI 入口](https://vercel.com/docs/frameworks/backend/fastapi) 。已核对路由、返回 JSON 与入口约定；尚未进行线上部署验证。
+
+## 数据库连接检查
+
+在仓库根目录执行：
+
+```bash
+npm run db:check
+```
+
+输入：用户配置的 `apps/api/.env.local` 中的 DATABASE_URL，或进程已有的同名环境变量。已有环境变量优先，不会被本地文件覆盖；脚本按自身位置查找文件，不依赖终端工作目录。
+
+流程：加载配置 → 连接 PostgreSQL（连接超时１０秒）→ 执行 SELECT 1 → 验证结果 → 关闭连接。只检查连接，不建表、不写数据、不检查文章表是否存在。不会读取或改动博客配置。
+
+成功输出 `Database connection successful.`，退出码为０；缺少配置、连接失败或结果异常时退出码为１。失败提示不包含原始数据库异常、连接字符串或密码。不要把配置值贴入聊天或日志。
+
+脚本使用 python-dotenv 读取环境文件、psycopg 连接数据库；不改变 FastAPI 的 /health，也不会让应用自动加载环境文件。首次拉取代码需先执行 `.venv/bin/python -m pip install -r apps/api/requirements.txt`。
+
+官方资料：[Psycopg 连接、查询与资源关闭](https://www.psycopg.org/psycopg3/docs/basic/usage.html) 、[python-dotenv 环境变量优先级](https://bbc2.github.io/python-dotenv/) 。

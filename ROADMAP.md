@@ -4,12 +4,14 @@
 
 ## 当前阶段
 
-阶段１：Markdown 只读解析与章节分块预览已实现并验证。最终形态确定为 Next.js 工作台＋Python FastAPI 后端＋PostgreSQL／pgvector，MVP 优先 Vercel 部署。下一条闭环是存储＋导入 API＋上传页面；独立数据库目标及建表授权待确认。网页、入库、向量化、模型调用与部署均尚未实现。
+阶段１：Markdown 只读解析与章节分块预览已实现并验证。最终形态确定为 Next.js 工作台＋Python FastAPI 后端＋PostgreSQL／pgvector。最小 FastAPI 健康接口已部署到 Vercel，并通过线上 HTTP 验证。下一步创建关联独立 Neon 数据库，再接入存储、导入 API 和上传页面。网页、入库、向量化与模型调用均尚未实现。
 
 2026-11-17：按用户确认顺序，先实现不依赖数据库的 FastAPI 服务，再部署 Vercel、创建并关联 Neon 数据库。用户已填写 health 返回值，本地 HTTP 验收通过。数据库不是启动服务的前置条件。
 
 ## 已完成
 
+- 2026-11-17：新增 check_db.py 和 npm run db:check，加载后端 .env.local（进程环境变量优先），仅执行 SELECT 1。授权联网后真实连接成功；空配置返回退出码１；２４项既有测试与 pip check 通过。未建表、未写入文章，也未验证线上数据库连接。
+- 2026-11-17：用户完成 Vercel 部署；实际请求 https://topic-agent.vercel.app/health 返回 HTTP/2 200、application/json 和 {"status":"ok"}。仅验证服务响应，不表示数据库或业务功能已就绪。
 - 2026-11-17：用户实现 GET /health，实际 HTTP 返回 200、application/json 和 {"status":"ok"}；用户新增根目录 package.json，dev:api 启动成功、test:api 的２４项测试通过。仅完成本地验收，尚未部署。
 - 2026-11-16：按已批准方案迁移为轻量 monorepo：apps/api 保存业务、测试、依赖；apps/web 仅目录说明；learning/python 保存笔记、配图与练习；docs 保留项目文档。２４项测试、６项练习、样例与链接检查通过，迁移代码／依赖／图片哈希一致。
 - 2026-11-16：按用户要求将换行观察笔记 `learning/python/notes/chunk.md` 及两张合成样例截图纳入版本控制，图片引用路径已检查；截图未见密钥或账号信息。
@@ -35,8 +37,8 @@
 
 ## 进行中
 
-- 最小 FastAPI 服务待 Vercel 部署；Root Directory 为 apps/api。用户已授权本批代码提交与推送，结果以 Git 记录为准。公开部署需单独确认，尚无线上验收结果。
-- 最小存储待确认独立 PostgreSQL 目标。新增导入、重复跳过、内容冲突是当前范围；历史版本、并发更新、分块版本与重分块延后，不作为当前前置要求。
+- 最小 FastAPI 服务已随 f14b700 推送，用户完成部署且线上健康接口验收通过。用户已创建 fuxi-db，区域 Washington, D.C., USA (East)，关联 Preview／Production；本地数据库连接验证通过。环境是否对应独立数据库分支尚未核实。
+- 最小存储下一步为核对目标与批准建表。新增导入、重复跳过、内容冲突是当前范围；历史版本、并发更新、分块版本与重分块延后，不作为当前前置要求。
 - 六项练习运行检查通过，用户已正确解释预算变化不改变分块数量、等于预算不算超长；不据此宣称掌握完整解析链路。
 - 分块已接入只读预览，用户亲自运行合成样例的验收待完成。仅支持约定的标题与围栏子集，未实现完整 Markdown 解析或持久化入库。
 
@@ -69,6 +71,7 @@
 
 ## 最近验证
 
+- 2026-11-17：curl 实测线上 /health 返回 HTTP/2 200 和 {"status":"ok"}；浏览工具无法访问，沙箱 DNS 受限，授权联网后验证成功。未改线上配置。
 - 2026-11-17：npm run dev:api -- --port 8765 启动成功，curl 实测 GET /health 返回 HTTP 200 和 {"status":"ok"}；临时服务已停止。npm run test:api 的２４项测试通过。沙箱限制端口访问，获准后完成验证；npm 提示已有用户配置 home 不受支持，未修改用户配置，不影响本次运行。
 - 2026-11-17：入口骨架语法检查、原有２４项 unittest 和 git diff --check 通过；FastAPI／Uvicorn 已安装到项目 .venv。骨架包含 pass，健康接口尚未完成，不将旧测试通过作为新接口验收依据。
 - 2026-11-16：新目录下２４项 unittest 与６项练习全部通过；API 目录 CLI 输出正确，根目录预算 7／8 样例通过；１９份迁移文件齐全，非 Markdown 文件哈希与迁移前一致，Markdown 本地引用均有效。前端仍未实现，无新增依赖或部署。

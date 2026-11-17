@@ -63,3 +63,9 @@ npm run db:check
 脚本使用 python-dotenv 读取环境文件、psycopg 连接数据库；不改变 FastAPI 的 /health，也不会让应用自动加载环境文件。首次拉取代码需先执行 `.venv/bin/python -m pip install -r apps/api/requirements.txt`。
 
 官方资料：[Psycopg 连接、查询与资源关闭](https://www.psycopg.org/psycopg3/docs/basic/usage.html) 、[python-dotenv 环境变量优先级](https://bbc2.github.io/python-dotenv/) 。
+
+## 数据库表结构
+
+`schema.sql` 保存首版 articles 与 chunks 建表 SQL，显式使用 public schema。已获授权在本地连接配置指向的 neondb 执行并核验，两表初始均为空；应用尚未接入文章保存。
+
+该文件只用于首次初始化，不能重复执行，也不会在启动或部署时自动执行。其他数据库或分支须先核对目标及同名表，并确认 schema 操作授权；执行时将整个文件放在一个事务中。

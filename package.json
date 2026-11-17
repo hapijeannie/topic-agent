@@ -4,6 +4,9 @@
   "scripts": {
     "dev:api": ".venv/bin/python -m uvicorn main:app --app-dir apps/api --reload",
     "test:api": "PYTHONPATH=apps/api .venv/bin/python -m unittest discover -s apps/api/tests -v",
-    "db:check": ".venv/bin/python apps/api/check_db.py"
+    "db:check": ".venv/bin/python apps/api/check_db.py",
+    "test:db": "RUN_DB_TESTS=1 PYTHONPATH=apps/api .venv/bin/python -m unittest discover -s apps/api/tests -p test_storage.py -v",
+    "import:sample": ".venv/bin/python apps/api/import_sample.py",
+    "dev:web": "npm run dev --prefix apps/web --"
   }
 }

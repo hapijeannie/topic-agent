@@ -14,14 +14,14 @@
 
 优先按上传入库、RAG 检索问答、Agent 确认创建任务依次交付，RAG 初版即建立固定评测集。先完成最小闭环，版本管理、多租户、多 Agent 等后续推进。
 
-部署方向为 Vercel 上的 Next.js 与 FastAPI，加独立 PostgreSQL；公开部署尚未执行，需单独确认。Docker 后续独立练习验收，平台部署不替代容器化技能。当前命令行只用于开发验证。
+部署方向为 Vercel 上的 Next.js 与 FastAPI，加独立 PostgreSQL；健康接口已上线，Neon 已接入本地开发，新导入接口与网页尚未部署。后续公开部署需单独确认。Docker 后续独立练习验收，平台部署不替代容器化技能。当前命令行只用于开发验证。
 
 ## 仓库结构
 
 ```text
 apps/
   api/                     # Python 业务代码、测试和依赖
-  web/                     # Next.js 工作台，目前仅目录说明
+  web/                     # Next.js 工作台，目前只有素材入库页
 learning/python/
   notes/                   # 学习笔记与 imgs 配图
   exercises/               # 个人练习
@@ -34,9 +34,9 @@ ROADMAP.md                 # 唯一进度源
 
 ## 当前使用方式
 
-当前已实现 Markdown 只读解析与章节分块预览，尚无网页、数据库写入或向量化。Python 核心后续供网页上传复用，命令行不是最终产品界面。
+当前已实现 Markdown 解析、章节分块、两表事务保存、`POST /documents` 和本地上传页。向量化和模型调用尚未实现。命令行仍是调试入口。
 
-FastAPI 入口位于 `apps/api/main.py`，用户已完成健康接口，并通过本地 HTTP 验证；在根目录执行 `npm run dev:api` 启动，`npm run test:api` 运行测试。输入、预期输出和流程见 [API 练习说明](apps/api/README.md#最小-api个人填写与验收) 。下一步部署服务，再创建关联数据库。
+FastAPI 入口位于 `apps/api/main.py`。健康接口已部署；导入接口只在本地验证，尚未重新部署。根目录执行 `npm run dev:api` 启动，`npm run test:api` 运行测试。接口说明见 [API README](apps/api/README.md) 。
 
 在项目根目录运行（本次验证环境为 Python 3.14.7）：
 
@@ -51,7 +51,9 @@ PYTHONPATH=apps/api .venv/bin/python -m unittest discover -s apps/api/tests -v
 
 只读取目录顶层 `.md` 文件，输出 JSON 元信息和逐文件错误，不打印全文或修改文件。成功退出码为０，存在解析错误、同标识内容冲突或无可处理文件时为１。输出的 `ready` 只表示解析通过，不表示已入库或可检索。`declared_status` 是文件头的发布声明，不是线上核验。
 
-支持带 Frontmatter 的文章，title 和 slug／id 必填。重复键、非法日期、非布尔 draft、空正文会报错；保留未知字段，暂不支持 YAML 别名。正文不重写。批内重复检测已实现，跨批入库幂等待数据库阶段实现。
+支持带 Frontmatter 的文章，title 和 slug／id 必填。重复键、非法日期、非布尔 draft、空正文会报错；保留未知字段，暂不支持 YAML 别名。正文不重写。预览提供批内重复检测；实际存储根据来源集合、来源标识及内容指纹实现跨次重复跳过，内容变化时事务覆盖文章及分块，保留文章 ID。
+
+本地网页使用：先安装后端 requirements 和前端依赖 `npm install --prefix apps/web`，按 [后端登录配置](apps/api/README.md#个人登录配置) 配置数据库与 GitHub OAuth，然后分别在两个终端执行 `npm run dev:api` 和 `npm run dev:web`，访问 http://localhost:3000 。页面包含上传、素材列表、正文及分块详情，只允许指定 GitHub 账号访问；鉴权配置缺失时拒绝素材访问。真实 GitHub 登录及完整网页验收待配置后完成，下一步见 [路线图](ROADMAP.md#下一步执行顺序) 。
 
 ## 分块预览：输入、输出与执行流程
 
@@ -78,7 +80,7 @@ PYTHONPATH=apps/api .venv/bin/python -m topic_agent.preview apps/api/tests/fixtu
 
 执行流程：读取原始字节 → 解析 Frontmatter 与正文 → 仅将正文传入 `chunk_body` → 保护代码围栏并按行首 `## ` 分块 → 计算字符数和超长标记 → 输出摘要。文件头不参与正文分块，换行计入字符数。
 
-内部接口 `topic_agent.chunking.chunk_body(body, max_chars)` 返回包含 `text` 原文的字典列表；命令行输出只包含序号、字符数和标记，不输出分块正文。分块随父文章的来源与内容指纹展示，尚未生成持久化分块 ID。
+内部接口 `topic_agent.chunking.chunk_body(body, max_chars)` 返回包含 `text` 原文的字典列表；命令行输出只包含序号、字符数和标记，不输出分块正文。预览不生成持久化 ID；实际保存时由数据库生成文章与分块 ID。
 
 支持范围：行首二级标题、标题前导语、反引号／波浪号围栏、围栏长度匹配与语言说明。保留原文和换行，未闭合围栏保护到末尾。不实现完整 Markdown 的列表／引用容器、HTML 与缩进代码块语义；当前摘要仅供只读预览，不等于可入库或可检索。
 

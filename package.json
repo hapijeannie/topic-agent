@@ -1,0 +1,8 @@
+{
+  "name": "fuxi-pro",
+  "private": true,
+  "scripts": {
+    "dev:api": ".venv/bin/python -m uvicorn main:app --app-dir apps/api --reload",
+    "test:api": "PYTHONPATH=apps/api .venv/bin/python -m unittest discover -s apps/api/tests -v"
+  }
+}

@@ -31,7 +31,7 @@
 
 采用轻量 monorepo：apps 放应用，learning 放学习材料，docs 放项目文档；没有真实共享需求前不创建 packages，也不引入构建编排工具。当前先实施 Python 只读导入核心，网页与数据库在后续阶段接入。沿用用户指定的 main 日常开发，不另建工作树。
 
-- `apps/api/`：Python 后端；topic_agent 放业务模块，tests 放 unittest 与 fixtures 合成素材，requirements.txt 锁定依赖。沿用根目录 .venv，不迁移虚拟环境，不修改全局环境。
+- `apps/api/`：Python 后端；main.py 为 FastAPI 入口，topic_agent 放业务模块，tests 放 unittest 与 fixtures 合成素材，requirements.txt 锁定依赖。先验证无数据库的健康接口，再部署服务、关联独立数据库。沿用根目录 .venv，不迁移虚拟环境，不修改全局环境。
 - `apps/web/`：未来 Next.js 工作台；当前仅目录说明，不代表网页已实现。
 - `learning/python/notes/`：Python／文本处理学习笔记，imgs 子目录保存笔记所引用的脱敏图片。
 - `learning/python/exercises/`：个人编码练习；按 01_topic_name.py 编号，说明放目录 README.md。保留 TODO，不代写练习，不由业务模块导入。

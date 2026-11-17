@@ -36,6 +36,8 @@ ROADMAP.md                 # 唯一进度源
 
 当前已实现 Markdown 只读解析与章节分块预览，尚无网页、数据库写入或向量化。Python 核心后续供网页上传复用，命令行不是最终产品界面。
 
+FastAPI 入口位于 `apps/api/main.py`，用户已完成健康接口，并通过本地 HTTP 验证；在根目录执行 `npm run dev:api` 启动，`npm run test:api` 运行测试。输入、预期输出和流程见 [API 练习说明](apps/api/README.md#最小-api个人填写与验收) 。下一步部署服务，再创建关联数据库。
+
 在项目根目录运行（本次验证环境为 Python 3.14.7）：
 
 ```bash

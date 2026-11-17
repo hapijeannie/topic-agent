@@ -136,7 +136,7 @@ npm run import:sample
 
 ```json
 {
-  "raw": "---\ntitle: 分块演示\nslug: chunk-demo\n---\n## A\n甲乙\n## B\n乙\n",
+  "raw": "---\ntitle: 分块演示\nslug: chunk-demo\n---\n## A\n甲乙\n## B\n乙111\n",
   "source_namespace": "storage-demo",
   "ownership": "owned",
   "source_path": "tests/fixtures/chunk_preview/sample.md"

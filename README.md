@@ -65,15 +65,15 @@ PYTHONPATH=apps/api .venv/bin/python -m unittest discover -s apps/api/tests -v
 PYTHONPATH=apps/api .venv/bin/python -m topic_agent.preview apps/api/tests/fixtures/chunk_preview --source demo --ownership owned --max-chars 7
 ```
 
-样例文件：[sample.md](apps/api/tests/fixtures/chunk_preview/sample.md) 。正文为 `## A\n甲乙\n## B\n乙\n`，末尾包含换行。预期完整报告仍包含现有来源、状态等信息，每篇文章新增以下字段：
+样例文件：[sample.md](apps/api/tests/fixtures/chunk_preview/sample.md) 。正文为 `## A\n甲乙\n## B\n乙111\n`，末尾包含换行。预期完整报告仍包含现有来源、状态等信息，每篇文章新增以下字段：
 
 ```json
 {
   "chunk_count": 2,
-  "oversized_count": 1,
+  "oversized_count": 2,
   "chunks": [
     {"index": 0, "char_count": 8, "oversized": true},
-    {"index": 1, "char_count": 7, "oversized": false}
+    {"index": 1, "char_count": 10, "oversized": true}
   ]
 }
 ```
